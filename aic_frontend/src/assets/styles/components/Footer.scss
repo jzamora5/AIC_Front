@@ -1,0 +1,15 @@
+@import "../Vars.scss";
+
+.footer {
+  @include flexbox(column);
+  background-color: $main-color;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer a {
+  text-decoration: none;
+  color: $text-white;
+}

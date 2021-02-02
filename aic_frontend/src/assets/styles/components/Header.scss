@@ -1,0 +1,15 @@
+@import "../Vars.scss";
+
+.header {
+  @include flexbox;
+  background-color: $main-color;
+  width: 100%;
+  justify-content: space-between;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.header a {
+  text-decoration: none;
+  color: $text-white;
+}
