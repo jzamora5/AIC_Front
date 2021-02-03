@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../assets/styles/components/Header.scss";
+import codeRiseLogo from "../assets/static/Code_Rise_Logo.png";
 
 const Header = () => {
   return (
     <header className="header">
       <Link to="/">
-        <h1>AIC</h1>
+        <img src={codeRiseLogo} alt="Code Rise Logo" />
       </Link>
       <div>
         <Link to="/login">

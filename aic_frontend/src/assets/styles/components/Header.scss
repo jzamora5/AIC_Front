@@ -13,3 +13,8 @@
   text-decoration: none;
   color: $text-white;
 }
+
+img {
+  width: 100px;
+  filter: brightness(0) invert(1);
+}
