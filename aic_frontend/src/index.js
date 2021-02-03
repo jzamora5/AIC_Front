@@ -5,6 +5,7 @@ import { createStore } from "redux";
 import reducer from "./reducers";
 import App from "./routes/App";
 import "bootstrap/dist/css/bootstrap.css";
+import "./assets/styles/Media.scss";
 // Put any other imports below so that CSS from your
 // components takes precedence over default styles.
 

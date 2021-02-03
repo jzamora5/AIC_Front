@@ -5,7 +5,7 @@ import "../assets/styles/components/Footer.scss";
 const Footer = () => {
   return (
     <footer className="footer p-4">
-      <Link to="/">Terminos de uso</Link>
+      <Link to="/">Términos de uso</Link>
       <Link to="/">Declaración de privacidad</Link>
     </footer>
   );

@@ -3,10 +3,11 @@
 .footer {
   @include flexbox(column);
   background-color: $main-color;
-  position: fixed;
-  left: 0;
+  position: absolute;
   bottom: 0;
+
   width: 100%;
+  height: $footer-height;
 }
 
 .footer a {
