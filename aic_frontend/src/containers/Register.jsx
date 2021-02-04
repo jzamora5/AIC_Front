@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../assets/styles/components/Register.scss";
 
 const Register = (props) => {
@@ -129,9 +130,17 @@ const Register = (props) => {
                 />
               </div>
             </div>
-            <button type="submit" className="btn btn-primary mt-4 px-4">
-              Enviar
-            </button>
+            <div className="d-flex flex-column flex-md-row align-items-center justify-content-between mt-4">
+              <button
+                type="submit"
+                className="btn btn-primary px-5 register_submit_btn"
+              >
+                Enviar
+              </button>
+              <Link to="/login">
+                <p className="register_to_login">¿Ya tienes una cuenta?</p>
+              </Link>
+            </div>
           </form>
         </div>
       </div>
