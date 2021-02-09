@@ -33,7 +33,7 @@ const Register = (props) => {
           <form className="m-3" onSubmit={handleSubmit}>
             <h2 className="pb-5">Registro</h2>
             <div className="form-row">
-              <div className="form-group col-12 col-md-6">
+              <div className="form-group col-12">
                 <label htmlFor="inputNombre">Ingresa tu nombre</label>
                 <input
                   type="text"
@@ -43,7 +43,9 @@ const Register = (props) => {
                   name="nombre"
                 />
               </div>
-              <div className="form-group col-12 col-md-6">
+            </div>
+            <div className="form-row">
+              <div className="form-group col-12">
                 <label htmlFor="inputApellido">Ingresa tu apellido</label>
                 <input
                   type="text"
@@ -81,7 +83,7 @@ const Register = (props) => {
               </div>
             </div>
             <div className="form-row">
-              <div className="form-group col-12 col-md-12">
+              <div className="form-group col-12 col-md-6">
                 <label htmlFor="inputTelefono">Ingresa tu teléfono</label>
                 <input
                   type="text"
@@ -91,9 +93,7 @@ const Register = (props) => {
                   name="telefono"
                 />
               </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group col-12 col-md-12">
+              <div className="form-group col-12 col-md-6">
                 <label htmlFor="emailInput">Ingresa tu correo</label>
                 <input
                   type="email"
