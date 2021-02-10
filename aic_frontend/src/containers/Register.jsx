@@ -1,59 +1,61 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import "../assets/styles/components/Register.scss";
 
 const Register = (props) => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    let obj = {};
-
-    const data = [
-      "nombre",
-      "apellido",
-      "tipoId",
-      "id",
-      "correo",
-      "telefono",
-      "contrasena",
-      "confirmacionContrasena",
-    ];
-
-    data.forEach((item) => {
-      obj[item] = event.target[item].value;
-    });
-    console.log(obj);
-    // props.history.push("/login");
+  const { register, handleSubmit, errors, getValues, trigger } = useForm();
+  const onSubmit = (data) => console.log(data);
+  const triggerPasswordMatch = () => {
+    trigger("passwordConfirmation");
   };
+  const passwordMatch = (passwordConfirmation) => {
+    return passwordConfirmation === getValues("password");
+  };
+  const invalidPasswordMsg = "⚠ Contraseña invalida";
+  const invalidPasswordConfirmationMsg = "⚠ No coincide";
+  const requiredFieldMessage = "Este campo es requerido";
 
   return (
     <div className="container d-flex justify-content-center align-items-center my-2">
-      <div className="card m-4 p-4">
+      <div className="card m-4 px-4 py-1">
         <div className="card-body p-0">
-          <form className="m-3" onSubmit={handleSubmit}>
-            <h2 className="pb-5">Registro</h2>
+          <form className="m-3" onSubmit={handleSubmit(onSubmit)}>
+            <h2 className="pb-2">Registro</h2>
             <div className="form-row">
               <div className="form-group col-12">
-                <label htmlFor="inputNombre">Ingresa tu nombre</label>
+                <label htmlFor="inputNombre">Nombre</label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Nombre"
+                  placeholder=""
                   id="inputNombre"
-                  name="nombre"
+                  name="firstName"
+                  ref={register({ required: true })}
                 />
+                {errors.firstName && errors.firstName.type === "required" && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
             </div>
             <div className="form-row">
-              <div className="form-group col-12">
-                <label htmlFor="inputApellido">Ingresa tu apellido</label>
+              <div className="form-group col-12 ">
+                <label htmlFor="inputApellido">Apellido</label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Apellido"
+                  placeholder=""
                   id="inputApellido"
-                  name="apellido"
+                  name="lastName"
+                  ref={register({ required: true })}
                 />
+                {errors.lastName && errors.lastName.type === "required" && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
             </div>
             <div className="form-row">
@@ -62,60 +64,98 @@ const Register = (props) => {
                 <select
                   className="form-control mr-2"
                   id="tipo_id"
-                  name="tipoId"
+                  name="typeId"
+                  ref={register({ required: true })}
                 >
-                  <option value="CC">Cedula de Ciudadanía</option>
-                  <option value="CE">Cédula de extranjería</option>
-                  <option value="PA">Pasaporte</option>
+                  <option value=""></option>
+                  <option value="13">Cédula de Ciudadanía</option>
+                  <option value="22">Cédula de extranjería</option>
+                  <option value="41">Pasaporte</option>
                 </select>
+                {errors.typeId && errors.typeId.type === "required" && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
               <div className="form-group col-12 col-md-6">
                 <label htmlFor="inputIdentificacion">
-                  Ingresa tu identificación
+                  Número de identificación
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Identificación"
+                  placeholder=""
                   id="inputIdentificacion"
                   name="id"
+                  ref={register({ required: true })}
                 />
+                {errors.id && errors.id.type === "required" && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
             </div>
             <div className="form-row">
               <div className="form-group col-12 col-md-6">
-                <label htmlFor="inputTelefono">Ingresa tu teléfono</label>
+                <label htmlFor="inputTelefono">Teléfono</label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Teléfono"
+                  placeholder=""
                   id="inputTelefono"
-                  name="telefono"
+                  name="phone"
+                  ref={register({ required: true })}
                 />
+                {errors.phone && errors.phone.type === "required" && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
               <div className="form-group col-12 col-md-6">
-                <label htmlFor="emailInput">Ingresa tu correo</label>
+                <label htmlFor="emailInput">Correo</label>
                 <input
                   type="email"
                   className="form-control"
                   id="emailInput"
                   aria-describedby="emailHelp"
-                  placeholder="Ingresa tu correo"
-                  name="correo"
+                  placeholder=""
+                  name="email"
+                  ref={register({ required: true })}
                 />
+                {errors.email && errors.email.type === "required" && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="form-row">
               <div className="form-group col-12 col-md-6">
-                <label htmlFor="passwordInput">Ingresa tu contraseña</label>
+                <label htmlFor="passwordInput">Contraseña</label>
                 <input
                   type="password"
                   className="form-control"
                   id="passwordInput"
-                  placeholder="Ingresa tu contraseña"
-                  name="contrasena"
+                  placeholder="Mínimo 8 caracteres"
+                  name="password"
+                  onChange={triggerPasswordMatch}
+                  ref={register({
+                    required: true,
+                    minLength: { value: 8 },
+                  })}
                 />
+                {errors.password && errors.password.type === "minLength" && (
+                  <span className="required_message">{invalidPasswordMsg}</span>
+                )}
+                {errors.password && errors.password.type === "required" && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
               <div className="form-group col-12 col-md-6">
                 <label htmlFor="passwordConfirmationInput">
@@ -125,9 +165,25 @@ const Register = (props) => {
                   type="password"
                   className="form-control"
                   id="passwordConfirmationInput"
-                  placeholder="Confirma tu contraseña"
-                  name="confirmacionContrasena"
+                  placeholder="Mínimo 8 caracteres"
+                  name="passwordConfirmation"
+                  ref={register({
+                    required: true,
+                    validate: passwordMatch,
+                  })}
                 />
+                {errors.passwordConfirmation &&
+                  errors.passwordConfirmation.type === "validate" && (
+                    <span className="required_message">
+                      {invalidPasswordConfirmationMsg}
+                    </span>
+                  )}
+                {errors.passwordConfirmation &&
+                  errors.passwordConfirmation.type === "required" && (
+                    <span className="required_message">
+                      {requiredFieldMessage}
+                    </span>
+                  )}
               </div>
             </div>
             <div className="d-flex flex-column flex-md-row align-items-center justify-content-between mt-4">
