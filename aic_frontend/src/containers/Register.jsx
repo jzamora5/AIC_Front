@@ -14,11 +14,10 @@ const Register = (props) => {
   };
 
   const validatePassword = () => {
-    console.log(hasSubmitted);
     if (hasSubmitted) {
       const passwordInput = getValues("password");
 
-      passwordInput.length > 0 && passwordInput.length >= 8
+      passwordInput.length === 0 || passwordInput.length >= 8
         ? setisValidPassword(true)
         : setisValidPassword(false);
     }
@@ -172,11 +171,13 @@ const Register = (props) => {
                 {!isValidPassword && hasSubmitted && (
                   <span className="required_message">{invalidPasswordMsg}</span>
                 )}
-                {errors.password && errors.password.type === "required" && (
-                  <span className="required_message">
-                    {requiredFieldMessage}
-                  </span>
-                )}
+                {isValidPassword &&
+                  errors.password &&
+                  errors.password.type === "required" && (
+                    <span className="required_message">
+                      {requiredFieldMessage}
+                    </span>
+                  )}
               </div>
               <div className="form-group col-12 col-md-6">
                 <label htmlFor="passwordConfirmationInput">
@@ -211,7 +212,10 @@ const Register = (props) => {
               <button
                 type="submit"
                 className="btn btn-primary px-5 register_submit_btn"
-                onClick={() => setHasSubmitted(true)}
+                onClick={() => {
+                  setHasSubmitted(true);
+                  validatePassword();
+                }}
               >
                 Enviar
               </button>
