@@ -5,9 +5,10 @@ import "../assets/styles/components/Register.scss";
 
 const Register = (props) => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [isValidPassword, setisValidPassword] = useState(true);
+  const [isValidPassword, setisValidPassword] = useState(false);
+  const [isMatchedPassword, setIsMatchedPassword] = useState(false);
 
-  const { register, handleSubmit, errors, getValues, trigger } = useForm({});
+  const { register, handleSubmit, errors, getValues } = useForm({});
 
   const onSubmit = (data) => {
     console.log(data);
@@ -23,12 +24,18 @@ const Register = (props) => {
     }
   };
 
-  const triggerPasswordMatch = () => {
-    if (hasSubmitted) trigger("passwordConfirmation");
+  const validatePasswordMatch = () => {
+    if (hasSubmitted) {
+      if (getValues("password") === getValues("passwordConfirmation")) {
+        setIsMatchedPassword(true);
+      } else {
+        setIsMatchedPassword(false);
+      }
+    }
   };
 
-  const passwordMatch = (passwordConfirmation) => {
-    return passwordConfirmation === getValues("password");
+  const triggerPasswordMatch = () => {
+    if (hasSubmitted) validatePasswordMatch();
   };
 
   const invalidPasswordMsg = "⚠ Mín. 8 Caracteres";
@@ -162,22 +169,25 @@ const Register = (props) => {
                   placeholder="Mínimo 8 caracteres"
                   name="password"
                   onChange={triggerPasswordMatch}
+                  onFocus={() => setisValidPassword(true)}
                   onBlur={validatePassword}
                   ref={register({
                     required: true,
-                    minLength: 8,
+                    validate: () => isValidPassword,
                   })}
                 />
-                {!isValidPassword && hasSubmitted && (
-                  <span className="required_message">{invalidPasswordMsg}</span>
-                )}
-                {isValidPassword &&
-                  errors.password &&
-                  errors.password.type === "required" && (
+                {!isValidPassword &&
+                  hasSubmitted &&
+                  getValues("password").length !== 0 && (
                     <span className="required_message">
-                      {requiredFieldMessage}
+                      {invalidPasswordMsg}
                     </span>
                   )}
+                {errors.password && errors.password.type === "required" && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
               <div className="form-group col-12 col-md-6">
                 <label htmlFor="passwordConfirmationInput">
@@ -188,14 +198,17 @@ const Register = (props) => {
                   className="form-control"
                   id="passwordConfirmationInput"
                   placeholder="Mínimo 8 caracteres"
+                  onFocus={() => setIsMatchedPassword(true)}
+                  onBlur={validatePasswordMatch}
                   name="passwordConfirmation"
                   ref={register({
                     required: true,
-                    validate: passwordMatch,
+                    validate: () => isMatchedPassword,
                   })}
                 />
-                {errors.passwordConfirmation &&
-                  errors.passwordConfirmation.type === "validate" && (
+                {!isMatchedPassword &&
+                  hasSubmitted &&
+                  getValues("passwordConfirmation").length !== 0 && (
                     <span className="required_message">
                       {invalidPasswordConfirmationMsg}
                     </span>
