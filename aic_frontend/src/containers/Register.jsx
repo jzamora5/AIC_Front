@@ -1,18 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "../assets/styles/components/Register.scss";
 
 const Register = (props) => {
-  const { register, handleSubmit, errors, getValues, trigger } = useForm();
-  const onSubmit = (data) => console.log(data);
-  const triggerPasswordMatch = () => {
-    trigger("passwordConfirmation");
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isValidPassword, setisValidPassword] = useState(true);
+
+  const { register, handleSubmit, errors, getValues, trigger } = useForm({});
+
+  const onSubmit = (data) => {
+    console.log(data);
   };
+
+  const validatePassword = () => {
+    console.log(hasSubmitted);
+    if (hasSubmitted) {
+      const passwordInput = getValues("password");
+
+      passwordInput.length > 0 && passwordInput.length >= 8
+        ? setisValidPassword(true)
+        : setisValidPassword(false);
+    }
+  };
+
+  const triggerPasswordMatch = () => {
+    if (hasSubmitted) trigger("passwordConfirmation");
+  };
+
   const passwordMatch = (passwordConfirmation) => {
     return passwordConfirmation === getValues("password");
   };
-  const invalidPasswordMsg = "⚠ Contraseña invalida";
+
+  const invalidPasswordMsg = "⚠ Mín. 8 Caracteres";
   const invalidPasswordConfirmationMsg = "⚠ No coincide";
   const requiredFieldMessage = "Este campo es requerido";
 
@@ -143,12 +163,13 @@ const Register = (props) => {
                   placeholder="Mínimo 8 caracteres"
                   name="password"
                   onChange={triggerPasswordMatch}
+                  onBlur={validatePassword}
                   ref={register({
                     required: true,
-                    minLength: { value: 8 },
+                    minLength: 8,
                   })}
                 />
-                {errors.password && errors.password.type === "minLength" && (
+                {!isValidPassword && hasSubmitted && (
                   <span className="required_message">{invalidPasswordMsg}</span>
                 )}
                 {errors.password && errors.password.type === "required" && (
@@ -190,6 +211,7 @@ const Register = (props) => {
               <button
                 type="submit"
                 className="btn btn-primary px-5 register_submit_btn"
+                onClick={() => setHasSubmitted(true)}
               >
                 Enviar
               </button>
